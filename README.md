@@ -11,12 +11,16 @@ CLI en Go para gestionar dispositivos de bloque en Linux (montar, desmontar, lis
 ## Instalacion
 
 ```bash
-# Desde el repositorio
-git clone https://github.com/rblez/mnt.git && cd mnt
-go build -o /usr/local/bin/mnt
+# Desde el release (recomendado)
+curl -sSL https://github.com/rblez/mnt/releases/latest/download/mnt-linux-amd64.tar.gz | \
+  tar xz -C /usr/local/bin mnt
 
 # O via go install
 go install github.com/rblez/mnt@latest
+
+# O desde el repositorio
+git clone https://github.com/rblez/mnt.git && cd mnt
+go build -o /usr/local/bin/mnt
 ```
 
 ## Uso
