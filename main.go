@@ -146,7 +146,7 @@ func isUnmountedPart(d blockDevice) bool {
 func cmdList(args []string) {
 	showAll := len(args) > 0 && args[0] == "--all"
 	if showAll {
-		fmt.Println("\033[1mDispositivos de bloque detectados:\033[0m\n")
+		fmt.Print("\033[1mDispositivos de bloque detectados:\033[0m\n")
 		cmd := exec.Command("lsblk", "-l", "-o", "NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,LABEL,MODEL")
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
@@ -160,7 +160,7 @@ func cmdList(args []string) {
 		os.Exit(1)
 	}
 
-	fmt.Println("\033[1mDispositivos no montados:\033[0m\n")
+	fmt.Print("\033[1mDispositivos no montados:\033[0m\n")
 	fmt.Printf("\033[0;36m%-10s %-8s %-8s %-20s\033[0m\n", "DISPOSITIVO", "TAMANO", "FS", "ETIQUETA")
 	fmt.Println("----------------------------------------------")
 	for _, d := range devices {
@@ -410,7 +410,7 @@ func cmdUnmount(args []string) {
 // --- STATUS ---
 
 func cmdStatus() {
-	fmt.Println("\033[1mDispositivos montados:\033[0m\n")
+	fmt.Print("\033[1mDispositivos montados:\033[0m\n")
 	fmt.Printf("%-12s %-20s %-10s %-8s\n", "DISPOSITIVO", "PUNTO MONTAJE", "TAMANO", "FS")
 	fmt.Println("----------------------------------------------------------")
 
@@ -433,15 +433,15 @@ func cmdStatus() {
 // --- HELP ---
 
 func cmdHelp() {
-	fmt.Println("\033[1mmnt - Gestion de dispositivos de bloque\033[0m\n")
-	fmt.Println("Uso: mnt <comando> [opciones]\n")
+	fmt.Print("\033[1mmnt - Gestion de dispositivos de bloque\033[0m\n")
+	fmt.Print("Uso: mnt <comando> [opciones]\n")
 	fmt.Println("\033[1mComandos:\033[0m")
 	fmt.Println("  list [--all]              Lista dispositivos (solo no montados por defecto)")
 	fmt.Println("  info <dispositivo>        Muestra informacion detallada")
 	fmt.Println("  mount [dispositivo]       Monta dispositivo(s) (interactivo si no se especifica)")
 	fmt.Println("  unmount <dispositivo>     Desmonta un dispositivo")
 	fmt.Println("  status                    Muestra dispositivos montados actualmente")
-	fmt.Println("  help                      Muestra esta ayuda\n")
+	fmt.Print("  help                      Muestra esta ayuda\n")
 	fmt.Println("\033[1mEjemplos:\033[0m")
 	fmt.Println("  mnt list")
 	fmt.Println("  mnt list --all")
