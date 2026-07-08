@@ -1,59 +1,62 @@
-# mount.sh
+# mnt
 
-CLI para gestionar dispositivos de bloque en Linux (montar, desmontar, listar e inspeccionar).
+CLI en Go para gestionar dispositivos de bloque en Linux (montar, desmontar, listar e inspeccionar).
 
-## Uso
+## Requisitos
 
-```
-mount.sh <comando> [opciones]
-```
-
-## Comandos
-
-| Comando | Descripcion |
-|---------|-------------|
-| `list [--all]` | Lista dispositivos de bloque (solo no montados por defecto) |
-| `info <dispositivo>` | Muestra informacion detallada del dispositivo |
-| `mount [dispositivo]` | Monta dispositivo(s). Sin argumento, modo interactivo |
-| `unmount <dispositivo>` | Desmonta un dispositivo |
-| `status` | Muestra los dispositivos montados actualmente |
-| `help` | Muestra la ayuda |
-
-## Ejemplos
-
-```bash
-# Listar dispositivos no montados
-./mount.sh list
-
-# Ver todos los dispositivos
-./mount.sh list --all
-
-# Informacion detallada de un dispositivo
-./mount.sh info /dev/sdb1
-
-# Montar todos los dispositivos (interactivo)
-./mount.sh mount
-
-# Montar un dispositivo especifico
-./mount.sh mount /dev/sdb1
-
-# Desmontar
-./mount.sh unmount /dev/sdb1
-
-# Ver estado actual
-./mount.sh status
-```
-
-## Dependencias
-
-- `sudo` - permisos de superusuario
-- `blkid`, `lsblk`, `mount`, `umount` (parte de util-linux)
-- `ntfs-3g` - para sistemas de archivos NTFS
-- `exfat-utils` o `exfatprogs` - para sistemas de archivos exFAT
+- Go 1.21+
+- `sudo`, `lsblk`, `blkid`, `mount`, `umount` (util-linux)
+- Opcional: `ntfs-3g` (NTFS), `exfatprogs` (exFAT), `smartctl` (SMART)
 
 ## Instalacion
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/rblez/mount.sh/main/mount.sh -o /usr/local/bin/mount.sh
-chmod +x /usr/local/bin/mount.sh
+# Desde el repositorio
+git clone https://github.com/rblez/mnt.git && cd mnt
+go build -o /usr/local/bin/mnt
+
+# O via go install
+go install github.com/rblez/mnt@latest
+```
+
+## Uso
+
+```
+mnt <comando> [opciones]
+```
+
+## Comandos
+
+| Comando | Sudo | Descripcion |
+|---------|------|-------------|
+| `list [--all]` | No | Lista dispositivos (solo no montados por defecto) |
+| `info <dispositivo>` | No | Informacion detallada del dispositivo |
+| `mount [dispositivo]` | Si | Monta dispositivo(s). Sin argumento, modo interactivo |
+| `unmount <dispositivo>` | Si | Desmonta un dispositivo |
+| `status` | No | Muestra los dispositivos montados actualmente |
+| `help` | No | Muestra la ayuda |
+
+## Configuracion (dotfiles)
+
+```bash
+mkdir -p ~/.config/mnt
+```
+
+```json
+// ~/.config/mnt/config.json
+{
+  "mount_base_dir": "/media"
+}
+```
+
+## Ejemplos
+
+```bash
+./mnt list
+./mnt list --all
+./mnt info /dev/sdb1
+./mnt mount /dev/sdb1
+./mnt mount            # modo interactivo
+./mnt unmount /dev/sdb1
+./mnt status
 ```
